@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import "./LoginPage.css";
 
-function LoginPage() {
+const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     // Add your authentication logic here
     console.log("Login clicked with:", email, password);
+    if (authenticatedSuccessfully()) {
+      navigate("/home");
+    }
   };
+
+  const authenticatedSuccessfully = () => true;
 
   return (
     <Container>
@@ -46,6 +53,6 @@ function LoginPage() {
       </Row>
     </Container>
   );
-}
+};
 
 export default LoginPage;
