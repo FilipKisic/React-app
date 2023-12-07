@@ -1,11 +1,30 @@
-import { Container } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { fetchCities } from "../redux/actions/cityActions";
 
-const HomePage = () => {
+const HomePage = ({ cities, fetchCities }) => {
+  useEffect(() => {
+    fetchCities();
+  }, [fetchCities]);
+
   return (
-    <Container>
-      <h2>Hello Filip</h2>
-    </Container>
+    <div>
+      <h2>City List</h2>
+      {cities ? (
+        <ul>
+          {cities.map((city) => (
+            <li key={city.id}>{city.name}</li>
+          ))}
+        </ul>
+      ) : (
+        <p>Loading...</p>
+      )}
+    </div>
   );
 };
 
-export default HomePage;
+const mapStateToProps = (state) => ({
+  cities: state.cityReducer.cities,
+});
+
+export default connect(mapStateToProps, { fetchCities })(HomePage);
