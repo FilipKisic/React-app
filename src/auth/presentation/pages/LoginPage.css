@@ -1,0 +1,13 @@
+/* 
+    gradient begin: #D17438
+    gradient end: #9D2C56
+*/
+
+.login-form {
+    width: 22em;
+}
+
+.submit-button {
+    background-color: #D17438;
+    margin: 2em 0em;
+}
