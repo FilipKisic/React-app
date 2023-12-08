@@ -3,6 +3,7 @@ import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../redux/actions/authActions";
+import './LoginPage.css';
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -26,12 +27,13 @@ const LoginPage = () => {
   return (
     <Container>
       <Row className="justify-content-md-center mt-5">
-        <Col xs={12} md={6}>
-          <Form onSubmit={handleLogin}>
+        <Col xs={12} md={4}>
+          <Form onSubmit={handleLogin} className="login-form">
             <h2 className="mb-4">Login</h2>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
+                className="email-addres-input"
                 type="email"
                 placeholder="Enter email"
                 value={email}
@@ -49,12 +51,14 @@ const LoginPage = () => {
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="mt-3">
+            <Button variant="primary" type="submit" className="login-button mt-3 w-100">
               Login
             </Button>
+            <Button variant="outline-dark" type="submit" className="register-button mt-3 w-100 border border-3">
+              Register
+            </Button>
+            {auth.error && <div className="error-message mt-3">{auth.error}</div>}
           </Form>
-
-          {auth.error && <div className="error-message mt-3">{auth.error}</div>}
         </Col>
       </Row>
     </Container>

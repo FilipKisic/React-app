@@ -1,13 +1,34 @@
-/* 
-    gradient begin: #D17438
-    gradient end: #9D2C56
-*/
+body {
+  background: #9d2c56;
 
-.login-form {
-    width: 22em;
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to right, #d17438, #9d2c56);
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #d17438, #9d2c56);
 }
 
-.submit-button {
-    background-color: #D17438;
-    margin: 2em 0em;
+.login-form {
+  background: #fff;
+  padding: 3em;
+  border-radius: 1em;
+}
+
+.email-addres-input {
+  margin-bottom: 1em;
+}
+
+.login-button {
+  margin-top: 2em !important;
+  font-weight: bold;
+}
+
+.register-button {
+    font-weight: bold;
+    border-color: #212529 !important;
+}
+
+.error-message {
+  color: #f00;
+  font-weight: bold;
 }
