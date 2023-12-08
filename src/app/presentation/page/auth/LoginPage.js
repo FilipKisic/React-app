@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../redux/actions/authActions';
+import React, { useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../redux/actions/authActions";
 
 const LoginPage = ({ history }) => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.authReducer);
+  const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,7 +20,7 @@ const LoginPage = ({ history }) => {
   // Redirect to the home page when the login is successful
   React.useEffect(() => {
     if (auth.token) {
-      history.push('/home'); // Change '/home' to the actual route you want to redirect to
+      navigate("/home");
     }
   }, [auth.token, history]);
 
