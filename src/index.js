@@ -11,10 +11,10 @@ import {
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import LoginPage from "./auth/presentation/pages/LoginPage";
-import HomePage from "./data_management/presentation/page/HomePage";
+import LoginPage from "./app/presentation/page/auth/LoginPage";
+import HomePage from "./app/presentation/page/home/HomePage";
 
-import store from "./data_management/presentation/redux/store";
+import store from "./app/presentation/redux/store";
 import { Provider } from "react-redux";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -25,7 +25,7 @@ root.render(
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </Router>
     </Provider>

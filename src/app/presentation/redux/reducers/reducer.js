@@ -1,9 +1,10 @@
 import { combineReducers } from 'redux';
-import cityReducer from '../reducers/cityReducer';
+import cityReducer from './cityReducer';
+import authReducer from './authReducer';
 
 const rootReducer = combineReducers({
   cityReducer,
-  // Add other reducers here if needed
+  authReducer,
 });
 
 export default rootReducer;

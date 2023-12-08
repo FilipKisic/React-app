@@ -1,23 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { login } from "../../redux/actions/authActions";
+
 import "./LoginPage.css";
 
 const LoginPage = () => {
+  console.log("LoginPage rendered");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token || null);
+  const error = useSelector((state) => state.auth.error || null);
+
   const handleLogin = (e) => {
     e.preventDefault();
-    // Add your authentication logic here
-    console.log("Login clicked with:", email, password);
-    if (authenticatedSuccessfully()) {
-      navigate("/home");
-    }
+
+    dispatch(login(email, password));
   };
 
-  const authenticatedSuccessfully = () => true;
+  useEffect(() => {
+    if (token !== null && token !== undefined) {
+      navigate("/home");
+    }
+  }, [token, navigate]);
+
+  useEffect(() => {
+    if (error !== null && error !== undefined) {
+      console.log("Error happend:", error);
+    }
+  }, [error]);
 
   return (
     <Container>
@@ -48,6 +63,7 @@ const LoginPage = () => {
             <Button className="submit-button" variant="primary" type="submit">
               Login
             </Button>
+            {error && <h3 className="text-danger mt-3">{error}</h3>}
           </Form>
         </Col>
       </Row>
