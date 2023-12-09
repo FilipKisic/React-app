@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../redux/actions/authActions";
-import './LoginPage.css';
+import { login } from "../../../redux/actions/authActions";
+import "./LoginPage.css";
+import "../AuthPage.css";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const LoginPage = () => {
     dispatch(login(email, password));
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (auth.token) {
       navigate("/home");
     }
@@ -28,12 +29,12 @@ const LoginPage = () => {
     <Container>
       <Row className="justify-content-md-center mt-5">
         <Col xs={12} md={4}>
-          <Form onSubmit={handleLogin} className="login-form">
+          <Form onSubmit={handleLogin} className="auth-form">
             <h2 className="mb-4">Login</h2>
             <Form.Group controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control
-                className="email-addres-input"
+                className="bottom-spaced"
                 type="email"
                 placeholder="Enter email"
                 value={email}
@@ -51,13 +52,23 @@ const LoginPage = () => {
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="login-button mt-3 w-100">
+            <Button
+              variant="primary"
+              type="submit"
+              className="login-button mt-3 w-100"
+            >
               Login
             </Button>
-            <Button variant="outline-dark" type="submit" className="register-button mt-3 w-100 border border-3">
+            <Button
+              variant="outline-dark"
+              type="submit"
+              className="register-button mt-3 w-100 border border-3"
+            >
               Register
             </Button>
-            {auth.error && <div className="error-message mt-3">{auth.error}</div>}
+            {auth.error && (
+              <div className="error-message mt-3">{auth.error}</div>
+            )}
           </Form>
         </Col>
       </Row>

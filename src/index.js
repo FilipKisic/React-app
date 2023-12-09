@@ -11,7 +11,8 @@ import {
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import LoginPage from "./app/presentation/page/auth/LoginPage";
+import LoginPage from "./app/presentation/page/auth/login/LoginPage";
+import RegisterPage from "./app/presentation/page/auth/register/RegisterPage";
 import HomePage from "./app/presentation/page/home/HomePage";
 
 import store from "./app/presentation/redux/store";
@@ -24,6 +25,7 @@ root.render(
       <Router>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
