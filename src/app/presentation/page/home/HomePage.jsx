@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from "react-redux";
-import { fetchCities } from "../../redux/actions/cityActions";
+import { getCustomers } from "../../redux/actions/customerActions";
 
-const HomePage = ({ cities, fetchCities }) => {
+const HomePage = ({ customers, getCustomers }) => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
+  const token = useSelector((state) => state.authReducer.token);
 
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
-      await fetchCities();
+      await getCustomers(token);
       setLoading(false);
     };
 
     fetch();
-  }, [fetchCities]);
+  }, [getCustomers, token]);
 
   return (
     <div>
@@ -32,13 +33,13 @@ const HomePage = ({ cities, fetchCities }) => {
         )
       }
 
-      <h2>City List</h2>
+      <h2>Customers List</h2>
       {loading ? (
         <p>Loading...</p>
       ) : (
         <ul>
-          {cities.map((city) => (
-            <li key={city.id}>{city.name}</li>
+          {customers.map((customer) => (
+            <li key={customer.id}>{customer.name} {customer.surname}</li>
           ))}
         </ul>
       )}
@@ -47,7 +48,7 @@ const HomePage = ({ cities, fetchCities }) => {
 };
 
 const mapStateToProps = (state) => ({
-  cities: state.cityReducer.cities,
+  customers: state.customersReducer.customers,
 });
 
-export default connect(mapStateToProps, { fetchCities })(HomePage);
+export default connect(mapStateToProps, { getCustomers })(HomePage);
