@@ -3,8 +3,9 @@ import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../../redux/actions/authActions";
-import "./LoginPage.css";
+import { Link } from 'react-router-dom';
 import "../AuthPage.css";
+import "./LoginPage.css";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -59,13 +60,16 @@ const LoginPage = () => {
             >
               Login
             </Button>
-            <Button
-              variant="outline-dark"
-              type="submit"
-              className="register-button mt-3 w-100 border border-3"
-            >
-              Register
-            </Button>
+
+            <Link to="/register">
+              <Button
+                variant="outline-dark"
+                className="register-button mt-3 w-100 border border-3"
+              >
+                Register
+              </Button>
+            </Link>
+
             {auth.error && (
               <div className="error-message mt-3">{auth.error}</div>
             )}

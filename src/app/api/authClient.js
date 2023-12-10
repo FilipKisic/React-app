@@ -21,13 +21,13 @@ const authClient = {
     return data.access_token;
   },
 
-  register: async (username, email, password) => {
-    const response = await fetch(`${BASE_URL}/auth/login`, {
+  register: async (name, email, password) => {
+    const response = await fetch(`${BASE_URL}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify({ name, email, password }),
     });
 
     if (!response.ok) {
@@ -36,6 +36,7 @@ const authClient = {
     }
 
     const data = await response.json();
+    console.log("DATA:", data);
     console.log("TOKEN: ", data.access_token);
 
     return data.access_token;

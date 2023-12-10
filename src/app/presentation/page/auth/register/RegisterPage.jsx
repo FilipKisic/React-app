@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
-import "../AuthPage.css";
-import "./RegisterPage.css";
-import { register } from "../../../redux/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { register } from "../../../redux/actions/authActions";
+import "../AuthPage.css";
+import "./RegisterPage.css";
 
 const RegisterPage = () => {
   const dispatch = useDispatch();
