@@ -1,4 +1,4 @@
-import { AUTH_SUCCESS, AUTH_FAILURE } from "../actions/types";
+import { LOGIN_SUCCESS, AUTH_FAILURE, REGISTER_SUCCESS } from "../actions/types";
 
 const initialState = {
   token: null,
@@ -7,10 +7,16 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    case AUTH_SUCCESS:
+    case LOGIN_SUCCESS:
       return {
         ...state,
         token: action.payload.token,
+        error: null,
+      };
+    case REGISTER_SUCCESS:
+      return {
+        ...state,
+        token: null,
         error: null,
       };
     case AUTH_FAILURE:

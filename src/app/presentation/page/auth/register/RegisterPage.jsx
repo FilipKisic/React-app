@@ -18,13 +18,10 @@ const RegisterPage = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     dispatch(register(username, email, password));
-  };
-
-  useEffect(() => {
-    if (auth.token) {
-      navigate("/home");
+    if (auth.error === undefined || auth.error === null) {
+      navigate("/login");
     }
-  }, [auth.token]);
+  };
 
   return (
     <Container>

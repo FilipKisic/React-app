@@ -36,10 +36,8 @@ const authClient = {
     }
 
     const data = await response.json();
-    console.log("DATA:", data);
-    console.log("TOKEN: ", data.access_token);
 
-    return data.access_token;
+    return data;
   },
 };
 
