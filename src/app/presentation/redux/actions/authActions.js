@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAILURE } from "./types";
+import { LOGIN_SUCCESS, AUTH_FAILURE, REGISTER_SUCCESS } from "./types";
 import authClient from "../../../api/authClient";
 
 export const loginSuccess = (token) => ({
@@ -6,8 +6,12 @@ export const loginSuccess = (token) => ({
   payload: { token },
 });
 
-export const loginFailure = (error) => ({
-  type: LOGIN_FAILURE,
+export const registerSuccess = () => ({
+  type: REGISTER_SUCCESS,
+});
+
+export const authFailure = (error) => ({
+  type: AUTH_FAILURE,
   payload: { error },
 });
 
@@ -16,6 +20,15 @@ export const login = (email, password) => async (dispatch) => {
     const token = await authClient.login(email, password);
     dispatch(loginSuccess(token));
   } catch (error) {
-    dispatch(loginFailure(error.message));
+    dispatch(authFailure(error.message));
   }
-}
+};
+
+export const register = (username, email, password) => async (dispatch) => {
+  try {
+    await authClient.register(username, email, password);
+    dispatch(registerSuccess());
+  } catch (error) {
+    dispatch(authFailure(error.message));
+  }
+};

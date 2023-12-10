@@ -8,24 +8,14 @@ body {
   background: linear-gradient(to right, #d17438, #9d2c56);
 }
 
-.login-form {
+.auth-form {
   background: #fff;
   padding: 3em;
   border-radius: 1em;
 }
 
-.email-addres-input {
+.bottom-spaced {
   margin-bottom: 1em;
-}
-
-.login-button {
-  margin-top: 2em !important;
-  font-weight: bold;
-}
-
-.register-button {
-    font-weight: bold;
-    border-color: #212529 !important;
 }
 
 .error-message {

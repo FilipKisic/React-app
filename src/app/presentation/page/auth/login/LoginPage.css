@@ -1,0 +1,9 @@
+.login-button {
+  margin-top: 2em !important;
+  font-weight: bold;
+}
+
+.register-button {
+  font-weight: bold;
+  border-color: #212529 !important;
+}
