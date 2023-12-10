@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { connect } from "react-redux";
-import { Table } from "react-bootstrap";
-import { Pagination } from "react-bootstrap/esm";
+import { useDispatch, useSelector, connect } from "react-redux";
+import { Table, Pagination, Dropdown, Row, Col } from "react-bootstrap";
 import { getCustomers } from "../../redux/actions/customerActions";
 import "./HomePage.css";
 
 const HomePage = ({ customers, getCustomers }) => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
+  const [customersPerPage, setCustomersPerPage] = useState(10);
+
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
   const token = useSelector((state) => state.authReducer.token);
-
-  const ITEMS_PER_PAGE = 10;
 
   useEffect(() => {
     const fetch = async () => {
@@ -25,11 +23,11 @@ const HomePage = ({ customers, getCustomers }) => {
     fetch();
   }, [getCustomers, token]);
 
-  const totalPages = Math.ceil(customers.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(customers.length / customersPerPage);
 
   const currentCustomers = customers.slice(
-    currentPage * ITEMS_PER_PAGE,
-    (currentPage + 1) * ITEMS_PER_PAGE
+    currentPage * customersPerPage,
+    (currentPage + 1) * customersPerPage
   );
 
   return (
@@ -44,7 +42,6 @@ const HomePage = ({ customers, getCustomers }) => {
         </div>
       )}
 
-      <h2>Customers List</h2>
       {loading ? (
         <p>Loading...</p>
       ) : (
@@ -72,36 +69,58 @@ const HomePage = ({ customers, getCustomers }) => {
             </tbody>
           </Table>
 
-          <Pagination className="choose-page">
-            <Pagination.Prev
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 0}
-            />
+          <Row className="justify-content-center">
+          <Col xs="auto">
+              <Pagination className="table-footer">
+                <Pagination.Prev
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  disabled={currentPage === 0}
+                />
 
-            {Array.from({ length: totalPages }, (_, i) => {
-              const startPage = Math.max(0, currentPage - 2);
-              const endPage = Math.min(totalPages - 1, startPage + 4);
+                {Array.from({ length: totalPages }, (_, i) => {
+                  const startPage = Math.max(0, currentPage - 2);
+                  const endPage = Math.min(totalPages - 1, startPage + 4);
 
-              if (i >= startPage && i <= endPage) {
-                return (
-                  <Pagination.Item
-                    key={i}
-                    active={i === currentPage}
-                    onClick={() => setCurrentPage(i)}
+                  if (i >= startPage && i <= endPage) {
+                    return (
+                      <Pagination.Item
+                        key={i}
+                        active={i === currentPage}
+                        onClick={() => setCurrentPage(i)}
+                      >
+                        {i + 1}
+                      </Pagination.Item>
+                    );
+                  }
+
+                  return null;
+                })}
+
+                <Pagination.Next
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  disabled={currentPage === totalPages - 1}
+                />
+              </Pagination>
+            </Col>
+            <Col xs="auto">
+              <div className="d-flex align-items-center table-footer">
+                <Dropdown
+                  onSelect={(value) => setCustomersPerPage(Number(value))}
+                >
+                  <Dropdown.Toggle
+                    id="dropdown-customers-per-page"
                   >
-                    {i + 1}
-                  </Pagination.Item>
-                );
-              }
-
-              return null;
-            })}
-
-            <Pagination.Next
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage === totalPages - 1}
-            />
-          </Pagination>
+                    {`Customers per Page: ${customersPerPage}`}
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item eventKey="10">10</Dropdown.Item>
+                    <Dropdown.Item eventKey="20">20</Dropdown.Item>
+                    <Dropdown.Item eventKey="50">50</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
+            </Col>
+          </Row>
         </div>
       )}
     </div>
