@@ -77,15 +77,26 @@ const HomePage = ({ customers, getCustomers }) => {
               onClick={() => setCurrentPage(currentPage - 1)}
               disabled={currentPage === 0}
             />
-            {Array.from({ length: totalPages }, (_, i) => (
-              <Pagination.Item
-                key={i}
-                active={i === currentPage}
-                onClick={() => setCurrentPage(i)}
-              >
-                {i + 1}
-              </Pagination.Item>
-            ))}
+
+            {Array.from({ length: totalPages }, (_, i) => {
+              const startPage = Math.max(0, currentPage - 2);
+              const endPage = Math.min(totalPages - 1, startPage + 4);
+
+              if (i >= startPage && i <= endPage) {
+                return (
+                  <Pagination.Item
+                    key={i}
+                    active={i === currentPage}
+                    onClick={() => setCurrentPage(i)}
+                  >
+                    {i + 1}
+                  </Pagination.Item>
+                );
+              }
+
+              return null;
+            })}
+
             <Pagination.Next
               onClick={() => setCurrentPage(currentPage + 1)}
               disabled={currentPage === totalPages - 1}
