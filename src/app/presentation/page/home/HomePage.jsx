@@ -8,11 +8,16 @@ const HomePage = ({ customers, getCustomers }) => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const [customersPerPage, setCustomersPerPage] = useState(10);
+  const [sortOrder, setSortOrder] = useState({
+    column: null,
+    direction: "asc",
+  });
 
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
   const token = useSelector((state) => state.authReducer.token);
 
+  //FETCH
   useEffect(() => {
     const fetch = async () => {
       setLoading(true);
@@ -23,9 +28,40 @@ const HomePage = ({ customers, getCustomers }) => {
     fetch();
   }, [getCustomers, token]);
 
+  //SORTING
+  const sortedCustomers = () => {
+    if (!sortOrder.column) return customers;
+
+    return customers.slice().sort((a, b) => {
+      const colA = a[sortOrder.column];
+      const colB = b[sortOrder.column];
+
+      if (colA < colB) {
+        return sortOrder.direction === "asc" ? -1 : 1;
+      } else if (colA > colB) {
+        return sortOrder.direction === "asc" ? 1 : -1;
+      }
+
+      return 0;
+    });
+  };
+
+  const handleSort = (column) => {
+    console.log("SORT CLICKED!");
+    setSortOrder((prevState) => ({
+      ...prevState,
+      column,
+      direction:
+        prevState.column === column && prevState.direction === "asc"
+          ? "desc"
+          : "asc",
+    }));
+  };
+
+  //PAGINATION
   const totalPages = Math.ceil(customers.length / customersPerPage);
 
-  const currentCustomers = customers.slice(
+  const currentCustomers = sortedCustomers().slice(
     currentPage * customersPerPage,
     (currentPage + 1) * customersPerPage
   );
@@ -49,11 +85,11 @@ const HomePage = ({ customers, getCustomers }) => {
           <Table striped bordered hover className="customer-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Email</th>
-                <th>Telephone</th>
+                <th onClick={() => handleSort("id")}>ID</th>
+                <th onClick={() => handleSort("name")}>Name</th>
+                <th onClick={() => handleSort("surname")}>Surname</th>
+                <th onClick={() => handleSort("email")}>Email</th>
+                <th onClick={() => handleSort("telephone")}>Telephone</th>
               </tr>
             </thead>
             <tbody>
@@ -70,7 +106,7 @@ const HomePage = ({ customers, getCustomers }) => {
           </Table>
 
           <Row className="justify-content-center">
-          <Col xs="auto">
+            <Col xs="auto">
               <Pagination className="table-footer">
                 <Pagination.Prev
                   onClick={() => setCurrentPage(currentPage - 1)}
@@ -107,9 +143,7 @@ const HomePage = ({ customers, getCustomers }) => {
                 <Dropdown
                   onSelect={(value) => setCustomersPerPage(Number(value))}
                 >
-                  <Dropdown.Toggle
-                    id="dropdown-customers-per-page"
-                  >
+                  <Dropdown.Toggle id="dropdown-customers-per-page">
                     {`Customers per Page: ${customersPerPage}`}
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
