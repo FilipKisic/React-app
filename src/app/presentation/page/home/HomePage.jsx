@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector, connect } from "react-redux";
-import { Table, Pagination, Dropdown, Row, Col } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { connect, useSelector } from "react-redux";
 import { getCustomers } from "../../redux/actions/customerActions";
+import { Row, Col } from "react-bootstrap";
+
 import "./HomePage.css";
+import CustomerQuantityPicker from "./components/CustomerQuantityPicker";
+import CustomerTable from "./components/CustomerTable";
+import SearchBar from "./components/SearchBar";
+import TablePagination from "./components/TablePagination";
 
 const HomePage = ({ customers, getCustomers }) => {
   const [loading, setLoading] = useState(true);
@@ -14,7 +19,6 @@ const HomePage = ({ customers, getCustomers }) => {
     direction: "asc",
   });
 
-  const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
   const token = useSelector((state) => state.authReducer.token);
 
@@ -48,7 +52,6 @@ const HomePage = ({ customers, getCustomers }) => {
   };
 
   const handleSort = (column) => {
-    console.log("SORT CLICKED!");
     setSortOrder((prevState) => ({
       ...prevState,
       column,
@@ -91,85 +94,26 @@ const HomePage = ({ customers, getCustomers }) => {
         <p>Loading...</p>
       ) : (
         <div>
-          <input
-            className="search-input"
-            type="text"
-            placeholder="Search customers..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+          <SearchBar searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+          <CustomerTable
+            customers={filteredCustomers}
+            handleSort={handleSort}
+            sortedColumn={sortOrder.column}
+            currentCustomers={currentCustomers}
           />
-
-          <Table striped bordered hover className="customer-table">
-            <thead>
-              <tr>
-                <th onClick={() => handleSort("id")}>ID</th>
-                <th onClick={() => handleSort("name")}>Name</th>
-                <th onClick={() => handleSort("surname")}>Surname</th>
-                <th onClick={() => handleSort("email")}>Email</th>
-                <th onClick={() => handleSort("telephone")}>Telephone</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentCustomers.map((customer) => (
-                <tr key={customer.id}>
-                  <td>{customer.id}</td>
-                  <td>{customer.name}</td>
-                  <td>{customer.surname}</td>
-                  <td>{customer.email}</td>
-                  <td>{customer.telephone}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-
           <Row className="justify-content-center">
             <Col xs="auto">
-              <Pagination className="table-footer">
-                <Pagination.Prev
-                  onClick={() => setCurrentPage(currentPage - 1)}
-                  disabled={currentPage === 0}
-                />
-
-                {Array.from({ length: totalPages }, (_, i) => {
-                  const startPage = Math.max(0, currentPage - 2);
-                  const endPage = Math.min(totalPages - 1, startPage + 4);
-
-                  if (i >= startPage && i <= endPage) {
-                    return (
-                      <Pagination.Item
-                        key={i}
-                        active={i === currentPage}
-                        onClick={() => setCurrentPage(i)}
-                      >
-                        {i + 1}
-                      </Pagination.Item>
-                    );
-                  }
-
-                  return null;
-                })}
-
-                <Pagination.Next
-                  onClick={() => setCurrentPage(currentPage + 1)}
-                  disabled={currentPage === totalPages - 1}
-                />
-              </Pagination>
+              <TablePagination
+                totalPages={totalPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
             </Col>
             <Col xs="auto">
-              <div className="d-flex align-items-center table-footer">
-                <Dropdown
-                  onSelect={(value) => setCustomersPerPage(Number(value))}
-                >
-                  <Dropdown.Toggle id="dropdown-customers-per-page">
-                    {`Customers per Page: ${customersPerPage}`}
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item eventKey="10">10</Dropdown.Item>
-                    <Dropdown.Item eventKey="20">20</Dropdown.Item>
-                    <Dropdown.Item eventKey="50">50</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
+              <CustomerQuantityPicker
+                customersPerPage={customersPerPage}
+                setCustomersPerPage={setCustomersPerPage}
+              />
             </Col>
           </Row>
         </div>
