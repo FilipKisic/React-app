@@ -1,7 +1,9 @@
 import React from "react";
-import { Table, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Button, Table } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import "../HomePage.css";
 
 const CustomerTable = ({
@@ -9,19 +11,19 @@ const CustomerTable = ({
   sortedColumn,
   currentCustomers,
   isLoggedIn,
+  deleteCustomer
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const token = useSelector((state) => state.authReducer.token);
+
   const handleEdit = (customerId) => {
-    // Redirect to the CustomerInfo page with the customerId
     navigate(`/customer-info/${customerId}`);
   };
 
   const handleDelete = (customerId) => {
-    // Implement logic to delete the customer with the given ID
-    // You can dispatch an action to delete the customer using Redux
-    //dispatch(deleteCustomer(customerId));
+    dispatch(deleteCustomer(token, customerId));
   };
 
   return (
@@ -30,16 +32,16 @@ const CustomerTable = ({
         <tr>
           <th onClick={() => handleSort("id")}>ID {sortedColumn === "id"}</th>
           <th onClick={() => handleSort("name")}>
-            Name {sortedColumn === "name"}
+            Name
           </th>
           <th onClick={() => handleSort("surname")}>
-            Surname {sortedColumn === "surname"}
+            Surname
           </th>
           <th onClick={() => handleSort("email")}>
-            Email {sortedColumn === "email"}
+            Email
           </th>
           <th onClick={() => handleSort("telephone")}>
-            Telephone {sortedColumn === "telephone"}
+            Telephone
           </th>
           {isLoggedIn && (<th>Actions</th>)}
         </tr>

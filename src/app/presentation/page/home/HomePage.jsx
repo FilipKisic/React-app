@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { connect, useSelector } from "react-redux";
-import { getCustomers } from "../../redux/actions/customerActions";
+import {
+  getCustomers,
+  deleteCustomer,
+} from "../../redux/actions/customerActions";
 import { Row, Col } from "react-bootstrap";
 
 import "./HomePage.css";
@@ -9,7 +12,7 @@ import CustomerTable from "./components/CustomerTable";
 import SearchBar from "./components/SearchBar";
 import TablePagination from "./components/TablePagination";
 
-const HomePage = ({ customers, getCustomers }) => {
+const HomePage = ({ customers, getCustomers, deleteCustomer }) => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
@@ -101,6 +104,7 @@ const HomePage = ({ customers, getCustomers }) => {
             sortedColumn={sortOrder.column}
             currentCustomers={currentCustomers}
             isLoggedIn={isLoggedIn}
+            deleteCustomer={deleteCustomer}
           />
           <Row className="justify-content-center">
             <Col xs="auto">
@@ -127,4 +131,6 @@ const mapStateToProps = (state) => ({
   customers: state.customersReducer.customers,
 });
 
-export default connect(mapStateToProps, { getCustomers })(HomePage);
+export default connect(mapStateToProps, { getCustomers, deleteCustomer })(
+  HomePage
+);
