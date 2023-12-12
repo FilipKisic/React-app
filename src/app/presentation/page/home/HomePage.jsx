@@ -100,6 +100,7 @@ const HomePage = ({ customers, getCustomers }) => {
             handleSort={handleSort}
             sortedColumn={sortOrder.column}
             currentCustomers={currentCustomers}
+            isLoggedIn={isLoggedIn}
           />
           <Row className="justify-content-center">
             <Col xs="auto">
