@@ -12,7 +12,7 @@ const apiClient = {
       });
 
       if (!response.ok) {
-        throw new Error("Error in getCustomers:", error);
+        throw new Error("Error in getCustomers");
       }
 
       const customers = await response.json();

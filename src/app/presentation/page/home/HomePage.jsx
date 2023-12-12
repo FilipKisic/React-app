@@ -7,6 +7,7 @@ import "./HomePage.css";
 const HomePage = ({ customers, getCustomers }) => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
   const [customersPerPage, setCustomersPerPage] = useState(10);
   const [sortOrder, setSortOrder] = useState({
     column: null,
@@ -58,10 +59,18 @@ const HomePage = ({ customers, getCustomers }) => {
     }));
   };
 
+  //SEARCH
+  const filteredCustomers = sortedCustomers().filter((customer) =>
+    Object.values(customer)
+      .join(" ")
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
+
   //PAGINATION
   const totalPages = Math.ceil(customers.length / customersPerPage);
 
-  const currentCustomers = sortedCustomers().slice(
+  const currentCustomers = filteredCustomers.slice(
     currentPage * customersPerPage,
     (currentPage + 1) * customersPerPage
   );
@@ -82,6 +91,14 @@ const HomePage = ({ customers, getCustomers }) => {
         <p>Loading...</p>
       ) : (
         <div>
+          <input
+            className="search-input"
+            type="text"
+            placeholder="Search customers..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
           <Table striped bordered hover className="customer-table">
             <thead>
               <tr>
