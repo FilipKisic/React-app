@@ -11,7 +11,7 @@ const CustomerTable = ({
   sortedColumn,
   currentCustomers,
   isLoggedIn,
-  deleteCustomer
+  deleteCustomer,
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,8 +22,8 @@ const CustomerTable = ({
     navigate(`/customer-info/${customerId}`);
   };
 
-  const handleDelete = (customerId) => {
-    dispatch(deleteCustomer(token, customerId));
+  const handleDelete = async (customerId) => {
+    await dispatch(deleteCustomer(token, customerId));
   };
 
   return (
@@ -31,19 +31,11 @@ const CustomerTable = ({
       <thead>
         <tr>
           <th onClick={() => handleSort("id")}>ID {sortedColumn === "id"}</th>
-          <th onClick={() => handleSort("name")}>
-            Name
-          </th>
-          <th onClick={() => handleSort("surname")}>
-            Surname
-          </th>
-          <th onClick={() => handleSort("email")}>
-            Email
-          </th>
-          <th onClick={() => handleSort("telephone")}>
-            Telephone
-          </th>
-          {isLoggedIn && (<th>Actions</th>)}
+          <th onClick={() => handleSort("name")}>Name</th>
+          <th onClick={() => handleSort("surname")}>Surname</th>
+          <th onClick={() => handleSort("email")}>Email</th>
+          <th onClick={() => handleSort("telephone")}>Telephone</th>
+          {isLoggedIn && <th>Actions</th>}
         </tr>
       </thead>
       <tbody>
