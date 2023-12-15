@@ -15,6 +15,7 @@ import LoginPage from "./app/presentation/page/auth/login/LoginPage";
 import RegisterPage from "./app/presentation/page/auth/register/RegisterPage";
 import HomePage from "./app/presentation/page/customer/HomePage";
 import DetailsPage from "./app/presentation/page/details/DetailsPage";
+import ItemsPage from "./app/presentation/page/items/ItemsPage";
 
 import store from "./app/presentation/redux/store";
 import { Provider } from "react-redux";
@@ -29,6 +30,7 @@ root.render(
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/details" element={<DetailsPage />} />
+          <Route path="/items" element={<ItemsPage />} />
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </Router>

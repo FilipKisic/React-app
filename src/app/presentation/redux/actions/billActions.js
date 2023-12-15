@@ -9,7 +9,6 @@ export const billListSuccess = (listOfBills) => ({
 export const getCustomerBills = (token, customerId) => async (dispatch) => {
   try {
     const listOfBills = await billApiClient.getBillsForCustomer(token, customerId);
-    console.log("List:", listOfBills);
     dispatch(billListSuccess(listOfBills));
   } catch (error) {
     console.error("There was an error in action getCustomerBills:", error);
