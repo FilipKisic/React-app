@@ -13,7 +13,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import LoginPage from "./app/presentation/page/auth/login/LoginPage";
 import RegisterPage from "./app/presentation/page/auth/register/RegisterPage";
-import HomePage from "./app/presentation/page/home/HomePage";
+import HomePage from "./app/presentation/page/customer/HomePage";
+import DetailsPage from "./app/presentation/page/customer/DetailsPage";
 
 import store from "./app/presentation/redux/store";
 import { Provider } from "react-redux";
@@ -27,6 +28,7 @@ root.render(
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/home" element={<HomePage />} />
+          <Route path="/details" element={<DetailsPage />} />
           <Route path="/" element={<Navigate to="/login" />} />
         </Routes>
       </Router>

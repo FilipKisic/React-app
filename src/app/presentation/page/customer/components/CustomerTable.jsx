@@ -18,8 +18,8 @@ const CustomerTable = ({
 
   const token = useSelector((state) => state.authReducer.token);
 
-  const handleEdit = (customerId) => {
-    navigate(`/customer-info/${customerId}`);
+  const handleEdit = (customer) => {
+    navigate(`/details`, {state: customer});
   };
 
   const handleDelete = async (customerId) => {
@@ -50,7 +50,7 @@ const CustomerTable = ({
               <td>
                 <Button
                   variant="primary"
-                  onClick={() => handleEdit(customer.id)}
+                  onClick={() => handleEdit(customer)}
                 >
                   Edit
                 </Button>

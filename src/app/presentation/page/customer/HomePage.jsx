@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { Col, Row } from "react-bootstrap";
 import { connect, useSelector } from "react-redux";
 import {
-  getCustomers,
   deleteCustomer,
+  getCustomers,
 } from "../../redux/actions/customerActions";
-import { Row, Col } from "react-bootstrap";
 
 import "./HomePage.css";
 import CustomerQuantityPicker from "./components/CustomerQuantityPicker";
