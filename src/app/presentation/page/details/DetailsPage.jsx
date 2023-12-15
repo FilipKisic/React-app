@@ -1,30 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import './DetailsPage.css';
+import BillsTable from "../bill/BillTable";
+import { getCustomerBills } from "../../redux/actions/billActions";
+import "./DetailsPage.css";
 
 const DetailsPage = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const customer = location.state;
   const [editedCustomer, setEditedCustomer] = useState(customer);
 
-  // Handle form submission to update customer data
+  const token = useSelector((state) => state.authReducer.token);
+
+  useEffect(() => {
+    const customerId = location.state.id;
+    dispatch(getCustomerBills(token, customerId));
+  }, []);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    const updatedEditedCustomer = { ...editedCustomer };
+    updatedEditedCustomer[name] = value;
+    setEditedCustomer(updatedEditedCustomer);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Prepare updated customer data
+    const { name, surname, email, telephone } = event.target;
+
     const updatedCustomerData = {
       id: editedCustomer.id,
-      name: event.form.name.value,
-      surname: event.form.surname.value,
-      email: event.form.email.value,
-      telephone: event.form.telephone.value,
+      name,
+      surname,
+      email,
+      telephone,
     };
 
-    // Update the editedCustomer state with the new data
     setEditedCustomer(updatedCustomerData);
-
-    // Print the edited customer data to the console for now
     console.log("Edited customer data:", editedCustomer);
   };
 
@@ -55,6 +70,7 @@ const DetailsPage = () => {
                 type="text"
                 name="name"
                 value={editedCustomer.name}
+                onChange={handleInputChange}
               />
             </Form.Group>
           </Col>
@@ -66,6 +82,7 @@ const DetailsPage = () => {
                 type="text"
                 name="surname"
                 value={editedCustomer.surname}
+                onChange={handleInputChange}
               />
             </Form.Group>
           </Col>
@@ -79,6 +96,7 @@ const DetailsPage = () => {
                 type="email"
                 name="email"
                 value={editedCustomer.email}
+                onChange={handleInputChange}
               />
             </Form.Group>
           </Col>
@@ -92,13 +110,18 @@ const DetailsPage = () => {
                 type="tel"
                 name="telephone"
                 value={editedCustomer.telephone}
+                onChange={handleInputChange}
               />
             </Form.Group>
           </Col>
         </Row>
 
-        <Button variant="primary" type="submit" className="update-button">Update Customer</Button>
+        <Button variant="primary" type="submit" className="update-button">
+          Update Customer
+        </Button>
       </Form>
+
+      <BillsTable />
     </div>
   );
 };

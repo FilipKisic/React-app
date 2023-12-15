@@ -1,5 +1,5 @@
-import { FETCH_CUSTOMERS_SUCCESS, DELETE_CUSTOMER_SUCCESS } from "./types";
 import customerApiClient from "../../../api/customerApiClient";
+import { DELETE_CUSTOMER_SUCCESS, FETCH_CUSTOMERS_SUCCESS } from "./types";
 
 export const customerListSuccess = (customers) => ({
   type: FETCH_CUSTOMERS_SUCCESS,

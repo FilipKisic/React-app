@@ -14,7 +14,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPage from "./app/presentation/page/auth/login/LoginPage";
 import RegisterPage from "./app/presentation/page/auth/register/RegisterPage";
 import HomePage from "./app/presentation/page/customer/HomePage";
-import DetailsPage from "./app/presentation/page/customer/DetailsPage";
+import DetailsPage from "./app/presentation/page/details/DetailsPage";
 
 import store from "./app/presentation/redux/store";
 import { Provider } from "react-redux";
