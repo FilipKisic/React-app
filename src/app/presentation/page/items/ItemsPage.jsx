@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Table } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { getBillItems } from "../../redux/actions/itemActions";
+import { deleteItem, getBillItems } from "../../redux/actions/itemActions";
 import "./ItemsPage.css";
 
 const ItemsPage = () => {
@@ -12,10 +12,16 @@ const ItemsPage = () => {
   const listOfItems = useSelector((state) => state.itemsReducer.listOfItems);
 
   const token = useSelector((state) => state.authReducer.token);
+  const isLoggedIn = useSelector((state) => state.authReducer.isLoggedIn);
 
   useEffect(() => {
     dispatch(getBillItems(token, bill.id));
   }, []);
+
+  const handleDelete = async (itemId) => {
+    await dispatch(deleteItem(token, itemId));
+    await dispatch(getBillItems(token, bill.id));
+  };
 
   return (
     <div>
@@ -27,6 +33,7 @@ const ItemsPage = () => {
             <th>Product Id</th>
             <th>Quantity</th>
             <th>Total Price</th>
+            {isLoggedIn && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -36,6 +43,13 @@ const ItemsPage = () => {
               <td>{item.productId}</td>
               <td>{item.quantity}</td>
               <td>{item.totalPrice}</td>
+              {isLoggedIn && (
+                <td>
+                  <Button variant="danger" onClick={() => handleDelete(item.id)}>
+                    Delete
+                  </Button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
