@@ -1,5 +1,5 @@
 import customerApiClient from "../../../api/customerApiClient";
-import { DELETE_CUSTOMER_SUCCESS, FETCH_CUSTOMERS_SUCCESS } from "./types";
+import { DELETE_CUSTOMER_SUCCESS, FETCH_CUSTOMERS_SUCCESS, UPDATE_CUSTOMER_SUCCESS } from "./types";
 
 export const customerListSuccess = (customers) => ({
   type: FETCH_CUSTOMERS_SUCCESS,
@@ -16,7 +16,7 @@ export const getCustomers = (token) => async (dispatch) => {
 };
 
 export const customerUpdateSuccess = (customer) => ({
-  type: DELETE_CUSTOMER_SUCCESS,
+  type: UPDATE_CUSTOMER_SUCCESS,
   payload: customer,
 });
 

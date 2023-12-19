@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import BillsTable from "../bill/BillTable";
 import { getCustomerBills } from "../../redux/actions/billActions";
 import "./DetailsPage.css";
+import { updateCustomer, getCustomers } from "../../redux/actions/customerActions";
 
 const DetailsPage = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const DetailsPage = () => {
     setEditedCustomer(updatedEditedCustomer);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const { name, surname, email, telephone } = event.target;
@@ -41,6 +42,8 @@ const DetailsPage = () => {
 
     setEditedCustomer(updatedCustomerData);
     console.log("Edited customer data:", editedCustomer);
+    await dispatch(updateCustomer(token, editedCustomer));
+    await dispatch(getCustomers(token));
   };
 
   return (
