@@ -15,6 +15,20 @@ export const getCustomers = (token) => async (dispatch) => {
   }
 };
 
+export const customerUpdateSuccess = (customer) => ({
+  type: DELETE_CUSTOMER_SUCCESS,
+  payload: customer,
+});
+
+export const updateCustomer = (token, customer) => async (dispatch) => {
+  try {
+    await customerApiClient.updateCustomer(token, customer);
+    dispatch(customerUpdateSuccess(token, customer));
+  } catch (error) {
+    console.error("There was an error in action updateCustomer:", error);
+  }
+};
+
 export const customerDeleteSuccess = (customerId) => ({
   type: DELETE_CUSTOMER_SUCCESS,
   payload: customerId,

@@ -45,7 +45,10 @@ const ItemsPage = () => {
               <td>{item.totalPrice}</td>
               {isLoggedIn && (
                 <td>
-                  <Button variant="danger" onClick={() => handleDelete(item.id)}>
+                  <Button
+                    variant="danger"
+                    onClick={() => handleDelete(item.id)}
+                  >
                     Delete
                   </Button>
                 </td>

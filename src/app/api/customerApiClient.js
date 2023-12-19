@@ -22,6 +22,24 @@ const customerApiClient = {
     }
   },
 
+  updateCustomer: async (token, customer) => {
+    try {
+      const response = await fetch(`${BASE_URL}/Customer/${customer.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error in updateCustomer");
+      }
+    } catch (error) {
+      console.error("Error in updateCustomer:", error);
+    }
+  },
+
   deleteCustomer: async (token, id) => {
     try {
       const response = await fetch(`${BASE_URL}/Customer/${id}`, {
