@@ -1,4 +1,5 @@
 import {
+  CREATE_CUSTOMER_SUCCESS,
   DELETE_CUSTOMER_SUCCESS,
   FETCH_CUSTOMERS_SUCCESS,
   UPDATE_CUSTOMER_SUCCESS,
@@ -6,6 +7,7 @@ import {
 
 const initialState = {
   customers: [],
+  customer: {},
 };
 
 const customersReducer = (state = initialState, action) => {
@@ -15,11 +17,16 @@ const customersReducer = (state = initialState, action) => {
         ...state,
         customers: action.payload,
       };
+    case CREATE_CUSTOMER_SUCCESS:
+      return {
+        ...state,
+        customer: action.payload,
+      };
     case UPDATE_CUSTOMER_SUCCESS:
       return {
         ...state,
         customer: action.payload,
-      }
+      };
     case DELETE_CUSTOMER_SUCCESS:
       const updatedCustomers = state.customers.filter(
         (customer) => customer.id !== action.payload.customerId

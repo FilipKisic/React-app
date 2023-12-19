@@ -1,5 +1,5 @@
 import customerApiClient from "../../../api/customerApiClient";
-import { DELETE_CUSTOMER_SUCCESS, FETCH_CUSTOMERS_SUCCESS, UPDATE_CUSTOMER_SUCCESS } from "./types";
+import { CREATE_CUSTOMER_SUCCESS, DELETE_CUSTOMER_SUCCESS, FETCH_CUSTOMERS_SUCCESS, UPDATE_CUSTOMER_SUCCESS } from "./types";
 
 export const customerListSuccess = (customers) => ({
   type: FETCH_CUSTOMERS_SUCCESS,
@@ -12,6 +12,20 @@ export const getCustomers = (token) => async (dispatch) => {
     dispatch(customerListSuccess(customers));
   } catch (error) {
     console.error("There was an error in action getCustomers:", error);
+  }
+};
+
+export const customerCreateSuccess = (customer) => ({
+  type: CREATE_CUSTOMER_SUCCESS,
+  payload: customer,
+});
+
+export const createCustomer = (token, customer) => async (dispatch) => {
+  try {
+    await customerApiClient.createCustomer(token, customer);
+    dispatch(customerCreateSuccess(token, customer));
+  } catch (error) {
+    console.error("There was an error in action createCustomer:", error);
   }
 };
 

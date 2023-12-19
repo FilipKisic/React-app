@@ -22,6 +22,24 @@ const customerApiClient = {
     }
   },
 
+  createCustomer: async (token, customer) => {
+    try {
+      const response = await fetch(`${BASE_URL}/Customer`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error in createCustomer");
+      }
+    } catch (error) {
+      console.error("Error in createCustomer:", error);
+    }
+  },
+
   updateCustomer: async (token, customer) => {
     try {
       const response = await fetch(`${BASE_URL}/Customer/${customer.id}`, {

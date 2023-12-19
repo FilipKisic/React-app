@@ -5,12 +5,17 @@ import { useLocation } from "react-router-dom";
 import BillsTable from "../bill/BillTable";
 import { getCustomerBills } from "../../redux/actions/billActions";
 import "./DetailsPage.css";
-import { updateCustomer, getCustomers } from "../../redux/actions/customerActions";
+import {
+  updateCustomer,
+  getCustomers,
+  createCustomer,
+} from "../../redux/actions/customerActions";
 
 const DetailsPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const customer = location.state;
+  const uuid = require('uuid');
   const [editedCustomer, setEditedCustomer] = useState(customer);
 
   const token = useSelector((state) => state.authReducer.token);
@@ -27,22 +32,18 @@ const DetailsPage = () => {
     setEditedCustomer(updatedEditedCustomer);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const { name, surname, email, telephone } = event.target;
-
-    const updatedCustomerData = {
-      id: editedCustomer.id,
-      name,
-      surname,
-      email,
-      telephone,
-    };
-
-    setEditedCustomer(updatedCustomerData);
-    console.log("Edited customer data:", editedCustomer);
+  const handleSubmit = async () => {
     await dispatch(updateCustomer(token, editedCustomer));
+    await dispatch(getCustomers(token));
+  };
+
+  const handleCreate = async () => {
+    const newCustomer = {}; 
+    Object.assign(newCustomer, editedCustomer);
+    newCustomer.id = null;
+
+    console.log("New customer data:", newCustomer);
+    await dispatch(createCustomer(token, newCustomer));
     await dispatch(getCustomers(token));
   };
 
@@ -50,7 +51,7 @@ const DetailsPage = () => {
     <div>
       <h2>Customer Details</h2>
 
-      <Form onSubmit={handleSubmit}>
+      <Form>
         <Row>
           <Col sm={6}>
             <Form.Group controlId="id">
@@ -59,7 +60,7 @@ const DetailsPage = () => {
                 type="text"
                 name="id"
                 value={editedCustomer.id}
-                readOnly
+                onChange={handleInputChange}
               />
             </Form.Group>
           </Col>
@@ -119,7 +120,14 @@ const DetailsPage = () => {
           </Col>
         </Row>
 
-        <Button variant="primary" type="submit" className="update-button">
+        <Button variant="primary" onClick={() => handleCreate()}>
+          Create customer
+        </Button>
+        <Button
+          variant="secondary"
+          onClick={() => handleSubmit()}
+          className="update-button"
+        >
           Update Customer
         </Button>
       </Form>
