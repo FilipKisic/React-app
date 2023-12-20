@@ -24,12 +24,20 @@ const customerApiClient = {
 
   createCustomer: async (token, customer) => {
     try {
+      const { name, surname, email, telephone, cityId } = customer;
       const response = await fetch(`${BASE_URL}/Customer`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({
+          name,
+          surname,
+          email,
+          telephone,
+          cityId,
+        }),
       });
 
       if (!response.ok) {
@@ -42,12 +50,22 @@ const customerApiClient = {
 
   updateCustomer: async (token, customer) => {
     try {
+      const { guid, name, surname, email, telephone, cityId } = customer;
+
       const response = await fetch(`${BASE_URL}/Customer/${customer.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({
+          guid,
+          name,
+          surname,
+          email,
+          telephone,
+          cityId,
+        }),
       });
 
       if (!response.ok) {
